@@ -19,20 +19,22 @@ blogsRouter.get('/', (request, response) => {
     .catch(error => next(error))
 }) */
 
-/* notesRouter.post('/', (request, response, next) => {
+blogsRouter.post('/', (request, response, next) => {
   const body = request.body
 
-  const note = new Note({
-    content: body.content,
-    important: body.important || false,
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
   })
 
-  note.save()
-    .then(savedNote => {
-      response.json(savedNote)
+  blog.save()
+    .then(savedBlog => {
+      response.json(savedBlog)
     })
     .catch(error => next(error))
-}) */
+})
 
 /* notesRouter.delete('/:id', (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)

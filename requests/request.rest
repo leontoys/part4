@@ -21,10 +21,10 @@ POST {{baseUrl}}/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Coding Horror",
-  "author": "Jeff Atwood",
-  "url": "https://blog.codinghorror.com/",
-  "likes": 110
+  "title": "DEV",
+  "author": "DEV Community",
+  "url": "https://dev.to/",
+  "likes": 80
 }
 
 
