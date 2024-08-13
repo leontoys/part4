@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const logger = require('../utils/logger')
 
 blogsRouter.get('/', (request, response) => {
   Blog.find({}).then(blogs => {
@@ -44,19 +45,22 @@ blogsRouter.delete('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-/* notesRouter.put('/:id', (request, response, next) => {
+blogsRouter.put('/:id', (request, response, next) => {
+  logger.info("put",request.body)
   const body = request.body
 
   const note = {
-    content: body.content,
-    important: body.important,
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
   }
 
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
-    .then(updatedNote => {
-      response.json(updatedNote)
+  Blog.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedBlog => {
+      response.json(updatedBlog)
     })
     .catch(error => next(error))
-}) */
+})
 
 module.exports = blogsRouter

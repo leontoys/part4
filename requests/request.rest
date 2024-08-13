@@ -5,7 +5,7 @@ GET {{baseUrl}}/api/blogs/
 
 
 
-@id = 66bbd013a231bf96fe4eed73
+@id = 66bbd2a6a231bf96fe4eed7a
 ###Get a specific person
 GET {{baseUrl}}/api/blogs/{{id}}
 
@@ -30,11 +30,14 @@ Content-Type: application/json
 
 
 ###Update
-PUT {{baseUrl}}/api/{{id}}
+PUT {{baseUrl}}/api/blogs/{{id}}
 Content-Type: application/json
 
 {
-    "likes": "3333",
+  "title": "Stack Overflow",
+  "author": "Stack Community",
+  "url": "https://stackoverflow.blog/",
+  "likes": 90
 }
 
 
