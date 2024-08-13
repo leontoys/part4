@@ -36,13 +36,13 @@ blogsRouter.post('/', (request, response, next) => {
     .catch(error => next(error))
 })
 
-/* notesRouter.delete('/:id', (request, response, next) => {
-  Note.findByIdAndDelete(request.params.id)
+blogsRouter.delete('/:id', (request, response, next) => {
+  Blog.findByIdAndDelete(request.params.id)
     .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
-}) */
+})
 
 /* notesRouter.put('/:id', (request, response, next) => {
   const body = request.body
