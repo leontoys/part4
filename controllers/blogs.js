@@ -7,17 +7,17 @@ blogsRouter.get('/', (request, response) => {
   })
 })
 
-/* notesRouter.get('/:id', (request, response, next) => {
-  Note.findById(request.params.id)
-    .then(note => {
-      if (note) {
-        response.json(note)
+blogsRouter.get('/:id', (request, response, next) => {
+  Blog.findById(request.params.id)
+    .then(blog => {
+      if (blog) {
+        response.json(blog)
       } else {
         response.status(404).end()
       }
     })
     .catch(error => next(error))
-}) */
+})
 
 blogsRouter.post('/', (request, response, next) => {
   const body = request.body
