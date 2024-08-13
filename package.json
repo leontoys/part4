@@ -1,0 +1,33 @@
+{
+  "name": "part4",
+  "version": "1.0.0",
+  "description": "blog",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leontoys/part4.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "liyon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leontoys/part4/issues"
+  },
+  "homepage": "https://github.com/leontoys/part4#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.3"
+  }
+}

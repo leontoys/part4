@@ -1,0 +1,40 @@
+@baseUrl = http://localhost:3003
+#@baseUrl = https://part3-caiv.onrender.com
+###Get all blogs
+GET {{baseUrl}}/api/blogs/
+
+
+
+@id = 66bbd013a231bf96fe4eed73
+###Get a specific person
+GET {{baseUrl}}/api/blogs/{{id}}
+
+
+
+###Delete a specific person
+DELETE {{baseUrl}}/api/blogs/{{id}}
+
+
+
+###Create a new person
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Coding Horror",
+  "author": "Jeff Atwood",
+  "url": "https://blog.codinghorror.com/",
+  "likes": 110
+}
+
+
+
+###Update
+PUT {{baseUrl}}/api/{{id}}
+Content-Type: application/json
+
+{
+    "likes": "3333",
+}
+
+
