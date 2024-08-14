@@ -171,7 +171,7 @@ describe('total likes', () => {
       })    
   })  
 
-  describe('most blogs', () => {
+  describe('most blog', () => {
   
     const listWithOneBlog = [
       {
