@@ -102,6 +102,29 @@ test('the unique identifier is id and not _id', async () => {
     assert(ids)
   })
 
+  test('a valid blog can be added ', async () => {
+    const newBlog = {
+            title: "Free Code Camp",
+            author: "Quincy Larson",
+            url: "https://www.freecodecamp.org/news/",
+            likes: 100,
+          }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/blogs')
+  
+    const titles = response.body.map(r => r.title)
+  
+    assert.strictEqual(response.body.length, initialBlogs.length + 1)
+  
+    assert(titles.includes('Free Code Camp'))
+  })  
+
 after(async () => {
   await mongoose.connection.close()
 })
