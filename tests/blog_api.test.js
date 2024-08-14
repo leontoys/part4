@@ -142,6 +142,20 @@ test('the unique identifier is id and not _id', async () => {
   
   })    
 
+  test('if title or url is missing we get 400 bad request', async () => {
+    const newBlog = {
+            author: "Quincy Larson",
+            url: "https://www.freecodecamp.org/news/",
+            likes : 100
+          }
+//the response returns 400 bad request
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+  
+  })     
+
 after(async () => {
   await mongoose.connection.close()
 })
