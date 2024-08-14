@@ -89,11 +89,17 @@ test('there are five blogs', async () => {
     assert.strictEqual(response.body.length, initialBlogs.length)
   })
   
-  test('the first of the blogs is React patterns', async () => {
+test('the first of the blogs is React patterns', async () => {
     const response = await api.get('/api/blogs')
   
     const titles = response.body.map(e => e.title)
     assert(titles.includes('React patterns'))
+})
+
+test('the unique identifier is id and not _id', async () => {
+    const response = await api.get('/api/blogs')
+    const ids = response.body.map(e => e.id)
+    assert(ids)
   })
 
 after(async () => {
