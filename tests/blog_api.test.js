@@ -125,6 +125,23 @@ test('the unique identifier is id and not _id', async () => {
     assert(titles.includes('Free Code Camp'))
   })  
 
+  test('if likes is missing it defaults to zero', async () => {
+    const newBlog = {
+            title: "Free Code Camp",
+            author: "Quincy Larson",
+            url: "https://www.freecodecamp.org/news/"
+          }
+//the response returns the added blog  
+    const response =     await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  
+    assert.strictEqual(response.body.likes, 0)
+  
+  })    
+
 after(async () => {
   await mongoose.connection.close()
 })
