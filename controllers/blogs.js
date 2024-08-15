@@ -43,12 +43,16 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 })
 
-blogsRouter.delete('/:id', (request, response, next) => {
-  Blog.findByIdAndDelete(request.params.id)
-    .then(() => {
-      response.status(204).end()
-    })
-    .catch(error => next(error))
+blogsRouter.delete('/:id', async (request, response, next) => {
+  console.log("reached here")
+  console.log("parameter",request.params.id)
+  try{
+    await Blog.findByIdAndDelete(request.params.id)
+    response.status(204).end()
+  } 
+  catch(exception){
+    next(exception)
+  } 
 })
 
 blogsRouter.put('/:id', (request, response, next) => {
