@@ -173,6 +173,93 @@ describe('when there is initially one user at db', () => {
     assert(usernames.includes(newUser.username))
   })
 
+  test('creation fails with proper statuscode and message if username already taken', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'salainen',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+
+    assert(result.body.error.includes('expected `username` to be unique'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })  
+
+  test('creation fails if username is not given', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      name: 'Superuser',
+      password: 'salainen',
+    }
+
+      await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+  }) 
+  
+  test('creation fails if password is not given ', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username : 'super',
+      name: 'Superuser',
+    }
+
+      await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+  })   
+
+  test('creation fails if username is shorter than 3', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username : 'ab',
+      name: 'Superuser',
+      password: 'salainen',
+    }
+
+      await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+  })   
+  
+  test('creation fails if password is shorter than 3 ', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username : 'super',
+      password : 'cd',
+      name: 'Superuser',
+    }
+
+      await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+  })     
 })
 
 after(async () => {
