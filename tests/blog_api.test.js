@@ -1,79 +1,22 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
+const helper = require('./test_helper')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
-
-const initialBlogs = [
-  {
-    title: "React patterns",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 7,
-  },
-  {
-    title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 5,
-  },
-  {
-    title: "Canonical string reduction",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 12,
-  },
-  {
-    title: "First class tests",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-    likes: 10,
-  },
-  {
-    title: "TDD harms architecture",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
-  },
-  {
-    title: "Type wars",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    likes: 2,
-  }
-]
 
 beforeEach(async () => {
-  //delet all 
   await Blog.deleteMany({})
-  //create new
-  let blogObject = new Blog(initialBlogs[0])
-  //save
-  await blogObject.save()
-  //create new
-  blogObject = new Blog(initialBlogs[1])
-  //save
-  await blogObject.save()
-  //create new
-  blogObject = new Blog(initialBlogs[2])
-  //save
-  await blogObject.save()
-  //create new
-  blogObject = new Blog(initialBlogs[3])
-  //save
-  await blogObject.save()
-  //create new
-  blogObject = new Blog(initialBlogs[4])
-  //save
-  await blogObject.save()
-  //create new
-  blogObject = new Blog(initialBlogs[5])
-  //save
-  await blogObject.save()
 
+  const blogObjects = helper.initialBlogs
+    .map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 test('blogs are returned as json', async () => {
@@ -86,7 +29,7 @@ test('blogs are returned as json', async () => {
 test('there are five blogs', async () => {
   const response = await api.get('/api/blogs')
 
-  assert.strictEqual(response.body.length, initialBlogs.length)
+  assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 
 test('the first of the blogs is React patterns', async () => {
@@ -120,7 +63,7 @@ test('a valid blog can be added ', async () => {
 
   const titles = response.body.map(r => r.title)
 
-  assert.strictEqual(response.body.length, initialBlogs.length + 1)
+  assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
 
   assert(titles.includes('Free Code Camp'))
 })
@@ -194,6 +137,41 @@ test('update by id', async () => {
   .send(newBlog)
   console.log("updated",updatedBlog.body)
   assert.strictEqual(updatedBlog.body.likes, likes )  
+
+})
+
+/**User */
+describe('when there is initially one user at db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+  test('creation succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'salainen',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    assert(usernames.includes(newUser.username))
+  })
 
 })
 
