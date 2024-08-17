@@ -16,14 +16,14 @@ DELETE {{baseUrl}}/api/blogs/{{id}}
 
 
 
-###Create a new person
+###Create a new blog
 POST {{baseUrl}}/api/blogs
 Content-Type: application/json
 
 {
-  "title": "DEV",
-  "author": "DEV Community",
-  "url": "https://dev.to/",
+  "title": "Google Blogs",
+  "author": "Google",
+  "url": "https://blog.google/products/search/",
   "likes": 80
 }
 
@@ -38,6 +38,25 @@ Content-Type: application/json
   "author": "Stack Community",
   "url": "https://stackoverflow.blog/",
   "likes": 90
+}
+
+
+
+@baseUrl = http://localhost:3003
+#@baseUrl = https://part3-caiv.onrender.com
+###Get all users
+GET {{baseUrl}}/api/users/
+
+
+
+###Create a new person
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+      "username": "root",
+      "name": "Superuser",
+      "password" : "salainen"
 }
 
 
