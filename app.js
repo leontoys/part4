@@ -29,7 +29,7 @@ app.use(cors())
 app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.requestLogger)
-//app.use(middleware.tokenExtractor)//for extracting token
+app.use(middleware.tokenExtractor)//for extracting token
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)//users

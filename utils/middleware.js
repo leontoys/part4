@@ -29,15 +29,19 @@ const errorHandler = (error, request, response, next) => {
 
 //token extractor
 //helper method
-const tokenExtractor = request => {
+const tokenExtractor = (request,response,next) => {
   //from the request get authorization part
   const authorization = request.get('authorization')
+  console.log("authorization")
   //check if it starts with bearer - we are using bearer scheme
   if (authorization && authorization.startsWith('Bearer ')) {
     //if yes, clean up by removing the bearer
-    return authorization.replace('Bearer ', '')
+    request.token =  authorization.replace('Bearer ', '')
+    console.log("token decoded")
   }
-  return null
+  else{
+    request.token = null
+  }
 
   next()
 }
