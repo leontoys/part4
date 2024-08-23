@@ -71,3 +71,16 @@ Content-Type: application/json
 }
 
 
+
+###Create a new blog - with logged in user
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+Authorization: Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxlb24iLCJpZCI6IjY2YzhmMTU5MmI3MGU2ZTY2OTMxNTljMiIsImlhdCI6MTcyNDQ0NjUxMX0.Ru-1UyQ_Md5vf61emchF0Jg5DgWrHU8xxwo_PwZ8VPw
+
+{
+  "title": "Leon Blogs",
+  "author": "Leon",
+  "url": "https://leonblogs.com//",
+  "likes": 1000
+}
+

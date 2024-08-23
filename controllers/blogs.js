@@ -2,6 +2,19 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+//helper method
+const getTokenFrom = request => {
+  //from the request get authorization part
+  const authorization = request.get('authorization')
+  //check if it starts with bearer - we are using bearer scheme
+  if (authorization && authorization.startsWith('Bearer ')) {
+    //if yes, clean up by removing the bearer
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
 
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog
@@ -24,12 +37,18 @@ blogsRouter.get('/:id', (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
 
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)  
+
   if (!body.title || !body.url) {
     return response.sendStatus(400)
   }
 
   //find any user
-  const user = await User.findOne()
+  //const user = await User.findOne()
   
   const blog = new Blog({
     title: body.title,
