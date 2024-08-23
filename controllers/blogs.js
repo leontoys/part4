@@ -38,9 +38,11 @@ blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  //const decodedToken = jwt.verify(request.token,process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
+  console.log("token decoded with middleware")
   const user = await User.findById(decodedToken.id)  
 
   if (!body.title || !body.url) {
