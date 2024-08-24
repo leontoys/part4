@@ -73,15 +73,37 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  console.log("reached here")
+   console.log("reached here")
+
+  const decodedToken = jwt.verify(request.token,process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  console.log("token decoded with middleware")
+  //first find user
+  const user = await User.findById(decodedToken.id)  
+  //then find the blog  
   console.log("parameter",request.params.id)
+  const blog = await Blog.findById(request.params.id)  
+  //console and return for now
+  console.log("blog",blog)
+  console.log("user",user)
+
+  //so the blog contains the user as object 
+  if ( blog.user.toString() != user._id.toString() ){
+    console.log("users are not same")
+    response.status(401).json({ error: 'Only the user created can delete the blog' })
+  } 
+  else{
   try{
-    await Blog.findByIdAndDelete(request.params.id)
+    console.log("users are same")
+    //await Blog.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } 
   catch(exception){
     next(exception)
-  } 
+  } }
+
 })
 
 blogsRouter.put('/:id', (request, response, next) => {
