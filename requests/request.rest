@@ -78,7 +78,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxlb24iLCJpZCI6IjY2YzhmMTU5MmI3MGU2ZTY2OTMxNTljMiIsImlhdCI6MTcyNDQ1MTYxNH0.EJaMHctTKQZZWZxZdBQPvYV6ul2teIMfYwM5hk7Ewkc
 
 {
-  "title": "Leon Blogs3",
+  "title": "Leon Blogs4",
   "author": "Leon",
   "url": "https://testblogs.com//",
   "likes": 1000
@@ -91,7 +91,7 @@ GET {{baseUrl}}/api/blogs/
 
 
 
-@id = 66c926c99958bac32459e170
+@id = 66c92913099d68c6a6594311
 ###Delete a specific blog
 DELETE {{baseUrl}}/api/blogs/{{id}}
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY2YzkwN2ZiYWU0MzQ5YjhlOTllMmFjZiIsImlhdCI6MTcyNDQ1OTMwN30.L-NI2_WxBOY-FLd_-GVZXZygC_YYWLVxxtmSgTk-WJc

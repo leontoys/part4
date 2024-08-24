@@ -43,7 +43,8 @@ blogsRouter.post('/', async (request, response, next) => {
     return response.status(401).json({ error: 'token invalid' })
   }
   console.log("token decoded with middleware")
-  const user = await User.findById(decodedToken.id)  
+  const user = request.user
+  //const user = await User.findById(decodedToken.id)  
 
   if (!body.title || !body.url) {
     return response.sendStatus(400)
@@ -81,7 +82,9 @@ blogsRouter.delete('/:id', async (request, response, next) => {
   }
   console.log("token decoded with middleware")
   //first find user
-  const user = await User.findById(decodedToken.id)  
+  //const user = await User.findById(decodedToken.id) 
+  const user = request.user
+ 
   //then find the blog  
   console.log("parameter",request.params.id)
   const blog = await Blog.findById(request.params.id)  
