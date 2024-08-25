@@ -3,6 +3,8 @@ const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
+
 
 //helper method
 const getTokenFrom = request => {
@@ -34,7 +36,7 @@ blogsRouter.get('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response, next) => {
   const body = request.body
 
   //const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
