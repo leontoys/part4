@@ -19,9 +19,10 @@ const getTokenFrom = request => {
 }
 
 blogsRouter.get('/', async (request, response) => {
+    console.log("get all")
     const blogs = await Blog
     .find({}).populate('user', { username: 1, name: 1 }) 
-    console.log("blogs",blogs)   
+    //console.log("blogs",blogs)   
     response.json(blogs)
   })
 
@@ -76,7 +77,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
   }
 })
 
-blogsRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
    console.log("reached here")
 
   const decodedToken = jwt.verify(request.token,process.env.SECRET)
@@ -112,19 +113,35 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 
 })
 
-blogsRouter.put('/:id', (request, response, next) => {
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response, next) => {
+  console.log("----reached backend put----")
   logger.info("put",request.body)
   const body = request.body
 
-  const note = {
+  const decodedToken = jwt.verify(request.token,process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  console.log("token decoded with middleware")
+  const user = request.user
+  //const user = await User.findById(decodedToken.id)  
+
+  if (!body.title || !body.url) {
+    return response.sendStatus(400)
+  }  
+
+  const blog = {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    user : user.id     
   }
 
-  Blog.findByIdAndUpdate(request.params.id, note, { new: true })
+  Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
     .then(updatedBlog => {
+      logger.info("blog updated in the backend")
+      logger.info(updatedBlog)
       response.json(updatedBlog)
     })
     .catch(error => next(error))

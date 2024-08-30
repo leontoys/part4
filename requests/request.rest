@@ -2,6 +2,7 @@
 #@baseUrl = https://part3-caiv.onrender.com
 ###Get all blogs
 GET {{baseUrl}}/api/blogs/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxlb24iLCJpZCI6IjY2YzhmMTU5MmI3MGU2ZTY2OTMxNTljMiIsImlhdCI6MTcyNDQ1MTYxNH0.EJaMHctTKQZZWZxZdBQPvYV6ul2teIMfYwM5hk7Ewkc
 
 
 
@@ -88,6 +89,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxlb
 
 ###Get all blogs
 GET {{baseUrl}}/api/blogs/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxlb24iLCJpZCI6IjY2YzhmMTU5MmI3MGU2ZTY2OTMxNTljMiIsImlhdCI6MTcyNDQ1MTYxNH0.EJaMHctTKQZZWZxZdBQPvYV6ul2teIMfYwM5hk7Ewkc
 
 
 

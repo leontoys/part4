@@ -39,6 +39,7 @@ const tokenExtractor = (request,response,next) => {
   if (authorization && authorization.startsWith('Bearer ')) {
     //if yes, clean up by removing the bearer
     request.token =  authorization.replace('Bearer ', '')
+    console.log(authorization)
     console.log("token decoded")
   }
   else{
