@@ -138,7 +138,8 @@ blogsRouter.put('/:id', middleware.userExtractor, async (request, response, next
     user : user.id     
   }
 
-  Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  Blog.findByIdAndUpdate(request.params.id, blog, { new: true }) 
+    .populate('user', { username: 1, name: 1 }) 
     .then(updatedBlog => {
       logger.info("blog updated in the backend")
       logger.info(updatedBlog)
