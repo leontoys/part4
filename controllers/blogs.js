@@ -104,7 +104,7 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, n
   else{
   try{
     console.log("users are same")
-    //await Blog.findByIdAndDelete(request.params.id)
+    await Blog.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } 
   catch(exception){
